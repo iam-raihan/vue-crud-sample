@@ -1,22 +1,35 @@
+import * as shared from "./shared";
+import { DogsController } from "../controllers";
+
+const controller = new DogsController();
+
 /**
  * State
  */
-const state = {};
+const state = {
+  ...shared.state
+};
 
 /**
  * Mutations
  */
-const mutations = {};
+const mutations = {
+  ...shared.mutations
+};
 
 /**
  * Actions
  */
-const actions = {};
+const actions = {
+  ...shared.actions(controller)
+};
 
 /**
  * Getters
  */
-const getters = {};
+const getters = {
+  ...shared.getters
+};
 
 export default {
   namespaced: true,

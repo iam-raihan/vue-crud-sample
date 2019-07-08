@@ -19,7 +19,12 @@ const mutations = {};
 /**
  * Actions
  */
-const actions = {};
+const actions = {
+  init({ dispatch }) {
+    dispatch("CatsModule/init");
+    dispatch("DogsModule/init");
+  }
+};
 
 /**
  * Getters
