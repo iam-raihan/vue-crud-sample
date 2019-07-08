@@ -29,7 +29,18 @@ const actions = {
 /**
  * Getters
  */
-const getters = {};
+const getters = {
+  getPetById: state => payload => {
+    switch (payload.type) {
+      case "cats":
+        return state.CatsModule.items[payload.id];
+      case "dogs":
+        return state.DogsModule.items[payload.id];
+      default:
+        throw "not implemented exception!";
+    }
+  }
+};
 
 export default new Vuex.Store({
   modules: { CatsModule, DogsModule },

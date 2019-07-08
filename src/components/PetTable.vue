@@ -36,7 +36,7 @@ export default {
   methods: {
     onRowClicked(data, index) {
       this.$router.push({
-        name: "pet",
+        name: "pet-view",
         params: { type: this.type.toLowerCase(), id: index }
       });
     }
