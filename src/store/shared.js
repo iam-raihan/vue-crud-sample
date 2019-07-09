@@ -32,4 +32,8 @@ export const actions = controller => {
 /**
  * Getters
  */
-export const getters = {};
+export const getters = {
+  getCount(state) {
+    return state.items.length;
+  }
+};

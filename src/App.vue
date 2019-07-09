@@ -1,12 +1,15 @@
 <template>
   <div id="app">
     <div id="nav">
-      <h4>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/cats">Cats</router-link> |
-        <router-link to="/dogs">Dogs</router-link> |
+      <h5>
+        <router-link to="/">Home</router-link>
+        ||
+        <router-link to="/cats">Cats ({{ catCount }})</router-link>
+        ||
+        <router-link to="/dogs">Dogs ({{ dogCount }})</router-link>
+        ||
         <router-link to="/about">About</router-link>
-      </h4>
+      </h5>
     </div>
     <keep-alive>
       <router-view class="container" />
@@ -15,9 +18,17 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   created() {
     this.$store.dispatch("init");
+  },
+  computed: {
+    ...mapGetters({
+      catCount: "CatsModule/getCount",
+      dogCount: "DogsModule/getCount"
+    })
   }
 };
 </script>
@@ -41,5 +52,6 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+  text-decoration: underline;
 }
 </style>
