@@ -24,19 +24,30 @@
     <b-modal v-model="showDetails" title="Cat Details:">
       <b-table :items="[selectedItem]" :fields="modalFields" stacked></b-table>
 
-      <div slot="modal-footer" class="float-right">
+      <div slot="modal-footer" class="w-100">
         <b-button
           variant="danger"
           size="sm"
-          class="mr-2"
-          @click="onUpdateClicked"
+          class="float-left"
+          @click="onDeleteClicked"
         >
-          Update
+          Delete
         </b-button>
 
-        <b-button variant="primary" size="sm" @click="showDetails = false">
-          Close
-        </b-button>
+        <div class="float-right">
+          <b-button
+            variant="primary"
+            size="sm"
+            class="mr-2"
+            @click="onUpdateClicked"
+          >
+            Update
+          </b-button>
+
+          <b-button variant="secondary" size="sm" @click="showDetails = false">
+            Close
+          </b-button>
+        </div>
       </div>
     </b-modal>
   </div>
@@ -76,6 +87,33 @@ export default {
           id: this.selectedItem.id
         }
       });
+    },
+    onDeleteClicked() {
+      this.showDetails = false;
+
+      this.$bvModal
+        .msgBoxConfirm(
+          `Please confirm that you want to delete "${this.selectedItem.name}"`,
+          {
+            title: "Confirmation",
+            size: "sm",
+            buttonSize: "sm",
+            okVariant: "danger",
+            okTitle: "YES",
+            cancelTitle: "NO",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true
+          }
+        )
+        .then(value => {
+          if (value === true)
+            this.$store.dispatch("deleteItem", {
+              data: this.selectedItem,
+              type: this.type.toLowerCase()
+            });
+        })
+        .catch(err => console.log(err));
     }
   }
 };
