@@ -1,6 +1,10 @@
 <template>
   <div>
-    <pet-table type="Dogs" :items="items"></pet-table>
+    <b-row>
+      <b-col md="8" offset-md="2">
+        <pet-table type="Dogs" :items="items"></pet-table>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -9,13 +13,11 @@ import PetTable from "@/components/PetTable.vue";
 import { mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      ...mapState("DogsModule", ["items"])
-    };
-  },
   components: {
-    "pet-table": PetTable
+    PetTable
+  },
+  computed: {
+    ...mapState("DogsModule", ["items"])
   }
 };
 </script>

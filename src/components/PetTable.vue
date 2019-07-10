@@ -3,6 +3,8 @@
     <u>
       <h1>{{ type }} for Adoption</h1>
     </u>
+
+    <!-- table -->
     <b-table
       outlined
       responsive
@@ -10,18 +12,33 @@
       selectable
       select-mode="single"
       :items="items"
-      :fields="fields"
+      :fields="tableFields"
       @row-clicked="onRowClicked"
     >
-      <!-- <template slot="name" slot-scope="data">
-        <router-link :to="`/${type.toLowerCase()}/${data.index}/view`">
-          {{ data.value }}
-        </router-link>
-      </template> -->
       <template slot="table-caption">
         Note: Click on any to see details.
       </template>
     </b-table>
+
+    <!-- details modal -->
+    <b-modal v-model="showDetails" title="Cat Details:">
+      <b-table :items="[selectedItem]" :fields="modalFields" stacked></b-table>
+
+      <div slot="modal-footer" class="float-right">
+        <b-button
+          variant="danger"
+          size="sm"
+          class="mr-2"
+          @click="onUpdateClicked"
+        >
+          Update
+        </b-button>
+
+        <b-button variant="primary" size="sm" @click="showDetails = false">
+          Close
+        </b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -30,14 +47,34 @@ export default {
   props: ["type", "items"],
   data() {
     return {
-      fields: ["name", "breed", "gender", "age", "color", "weight", "location"]
+      selectedItem: Object,
+      showDetails: false,
+      tableFields: ["name", "breed", "gender", "age", "location"],
+      modalFields: [
+        "name",
+        "breed",
+        "gender",
+        "age",
+        "location",
+        "color",
+        "weight",
+        "note"
+      ]
     };
   },
   methods: {
-    onRowClicked(data, index) {
+    onRowClicked(data) {
+      this.selectedItem = data;
+      this.showDetails = true;
+    },
+    onUpdateClicked() {
+      this.showDetails = false;
       this.$router.push({
-        name: "pet-view",
-        params: { type: this.type.toLowerCase(), id: index }
+        name: "pet-edit",
+        params: {
+          type: this.type.toLowerCase(),
+          id: this.selectedItem.id
+        }
       });
     }
   }

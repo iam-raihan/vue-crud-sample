@@ -4,7 +4,6 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Cats from "./views/Cats.vue";
 import Dogs from "./views/Dogs.vue";
-import PetView from "./views/PetView.vue";
 import PetEdit from "./views/PetEdit.vue";
 
 Vue.use(Router);
@@ -29,13 +28,6 @@ const router = new Router({
       component: Dogs
     },
     {
-      path: "/:type/:id/view",
-      name: "pet-view",
-      component: PetView,
-      props: true,
-      meta: { isValidPetType: true }
-    },
-    {
       path: "/:type/:id/edit",
       name: "pet-edit",
       component: PetEdit,
@@ -54,7 +46,6 @@ const router = new Router({
     },
     {
       path: "*",
-      // alice: "not-found",
       component: () => import("./views/PageNotFound.vue")
     }
   ]

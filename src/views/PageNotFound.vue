@@ -1,16 +1,15 @@
 <template>
   <div>
-    <h1>Page Not Found!</h1>
-    <b-btn @click="goHome" variant="primary" class="mt-4">Go Home</b-btn>
+    <not-found type="Page"></not-found>
   </div>
 </template>
 
 <script>
+import NotFound from "@/components/NotFound.vue";
+
 export default {
-  methods: {
-    goHome() {
-      this.$router.push({ name: "home" });
-    }
+  components: {
+    NotFound
   }
 };
 </script>
