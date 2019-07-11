@@ -31,7 +31,7 @@ export default {
     togglePetForm() {
       this.showPetForm = !this.showPetForm;
     },
-    onFormSubmit(data, type) {
+    onFormSubmit({ data, type }) {
       this.$store.dispatch("addItem", { data, type });
 
       this.$toast.success({ message: "Added successfully" });

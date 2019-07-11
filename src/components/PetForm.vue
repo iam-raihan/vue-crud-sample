@@ -4,7 +4,7 @@
       <b-col md="8" offset-md="2" sm="10" offset-sm="1">
         <b-form
           @submit.prevent="handleSubmit"
-          @reset.prevent="handleReset"
+          @reset.prevent="resetForm"
           autocomplete="off"
         >
           <b-form-row>
@@ -36,6 +36,7 @@
               <!-- type -->
               <b-form-group label="Select Species:" class="text-left">
                 <b-form-select
+                  :disabled="!isNewEntry"
                   :options="formOptions.species"
                   required
                   v-model="formPetType"
@@ -134,7 +135,7 @@
           <b-form-row>
             <b-col class="text-right">
               <b-button type="submit" variant="primary">
-                {{ petType ? "Update" : "Submit" }}
+                {{ !isNewEntry ? "Update" : "Submit" }}
               </b-button>
             </b-col>
             <b-col class="text-left">
@@ -153,8 +154,10 @@
 export default {
   props: {
     petData: {
+      type: Object,
       default() {
         return {
+          id: "0",
           name: "",
           breed: "",
           gender: null,
@@ -167,35 +170,46 @@ export default {
       }
     },
     petType: {
+      type: String,
       default() {
         return null;
       },
       validator(value) {
-        return ["cat", "dog"].indexOf(value) !== -1;
+        return ["cats", "dogs"].indexOf(value) !== -1;
       }
     }
   },
   data() {
     return {
-      submitBtnText: "",
       formOptions: {
         gender: ["Male", "Female"],
-        species: [{ value: "cat", text: "Cat" }, { value: "dog", text: "Dog" }],
+        species: [
+          { value: "cats", text: "Cat" },
+          { value: "dogs", text: "Dog" }
+        ],
         locationList: ["Dhaka", "Khulna", "Jashore"]
       },
       formData: Object.assign({}, this.petData), // to avoid reactivity
-      formPetType: this.petType
+      formDataOld: Object.assign({}, this.petData),
+      formPetType: this.petType,
+      isNewEntry: this.petData.id === "0"
     };
   },
   methods: {
     handleSubmit() {
       // TODO - validate form
 
-      this.$emit("form-submit", this.formData, this.formPetType);
-      this.handleReset();
+      this.$emit("form-submit", {
+        data: this.formData,
+        type: this.formPetType
+      });
+
+      if (!this.isNewEntry) this.formDataOld = Object.assign({}, this.formData);
+
+      this.resetForm();
     },
-    handleReset() {
-      this.formData = Object.assign({}, this.petData);
+    resetForm() {
+      this.formData = Object.assign({}, this.formDataOld);
       this.formPetType = this.petType;
     }
   }

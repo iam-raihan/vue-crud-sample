@@ -11,7 +11,7 @@
         <router-link to="/about">About</router-link>
       </h5>
     </div>
-    <keep-alive>
+    <keep-alive exclude="editpet">
       <router-view class="container" />
     </keep-alive>
   </div>

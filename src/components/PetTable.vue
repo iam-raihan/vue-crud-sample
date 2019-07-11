@@ -14,6 +14,7 @@
       :items="items"
       :fields="tableFields"
       @row-clicked="onRowClicked"
+      primary-key="id"
     >
       <template slot="table-caption">
         Note: Click on any to see details.
@@ -55,12 +56,21 @@
 
 <script>
 export default {
-  props: ["type", "items"],
+  props: {
+    type: String,
+    items: Array
+  },
   data() {
     return {
       selectedItem: Object,
       showDetails: false,
-      tableFields: ["name", "breed", "gender", "age", "location"],
+      tableFields: [
+        { key: "name", sortable: true },
+        { key: "breed", sortable: true },
+        { key: "gender", sortable: true },
+        { key: "age", sortable: true },
+        { key: "location", sortable: true }
+      ],
       modalFields: [
         "name",
         "breed",
@@ -107,11 +117,14 @@ export default {
           }
         )
         .then(value => {
-          if (value === true)
+          if (value === true) {
             this.$store.dispatch("deleteItem", {
               data: this.selectedItem,
               type: this.type.toLowerCase()
             });
+
+            this.$toast.success({ message: "Deleted successfully" });
+          }
         })
         .catch(err => console.log(err));
     }

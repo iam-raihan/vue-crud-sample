@@ -8,10 +8,8 @@ Vue.use(Vuex);
 
 const mapModuleName = type => {
   switch (type) {
-    case "cat":
     case "cats":
       return "CatsModule";
-    case "dog":
     case "dogs":
       return "DogsModule";
     default:

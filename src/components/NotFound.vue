@@ -7,7 +7,9 @@
 
 <script>
 export default {
-  props: ["type"],
+  props: {
+    type: String
+  },
   methods: {
     goHome() {
       this.$router.push({ name: "home" });

@@ -1,7 +1,11 @@
 <template>
   <div>
     <div v-if="pet !== undefined">
-      <h1>{{ pet.name }}</h1>
+      <pet-form
+        :pet-data="pet"
+        :pet-type="type"
+        @form-submit="onFormSubmit"
+      ></pet-form>
     </div>
 
     <not-found v-else type="Pet"></not-found>
@@ -9,11 +13,17 @@
 </template>
 
 <script>
+import PetForm from "@/components/PetForm.vue";
 import NotFound from "@/components/NotFound.vue";
 
 export default {
-  props: ["type", "id"],
+  name: "editpet",
+  props: {
+    type: String,
+    id: String
+  },
   components: {
+    PetForm,
     NotFound
   },
   computed: {
@@ -22,6 +32,13 @@ export default {
         type: this.type,
         id: this.id
       });
+    }
+  },
+  methods: {
+    onFormSubmit({ data, type }) {
+      this.$store.dispatch("editItem", { data, type });
+
+      this.$toast.success({ message: "Updated successfully" });
     }
   }
 };

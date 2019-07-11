@@ -9,17 +9,17 @@ export const state = {
  * Mutations
  */
 export const mutations = {
-  setItems(state, payload) {
+  SET_ITEMS(state, payload) {
     state.items = payload;
   },
-  addItem(state, payload) {
+  ADD_ITEM(state, payload) {
     state.items.push(payload);
   },
-  editItem(state, payload) {
+  EDIT_ITEM(state, payload) {
     const index = state.items.findIndex(item => item.id === payload.id);
-    if (index !== -1) state.items[index] = payload;
+    if (index !== -1) state.items.splice(index, 1, payload);
   },
-  deleteItem(state, payload) {
+  DELETE_ITEM(state, payload) {
     const index = state.items.findIndex(item => item.id === payload.id);
     if (index !== -1) state.items.splice(index, 1);
   }
@@ -35,19 +35,19 @@ export const actions = controller => {
     },
     fetchItems({ commit }) {
       const items = controller.getAll();
-      commit("setItems", items);
+      commit("SET_ITEMS", items);
     },
     addItem({ commit }, data) {
       const item = controller.addNew(data);
-      commit("addItem", item);
+      commit("ADD_ITEM", item);
     },
     editItem({ commit }, data) {
       const item = controller.update(data);
-      commit("editItem", item);
+      commit("EDIT_ITEM", item);
     },
     deleteItem({ commit }, data) {
       const item = controller.delete(data);
-      commit("deleteItem", item);
+      commit("DELETE_ITEM", item);
     }
   };
 };
