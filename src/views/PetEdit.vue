@@ -35,10 +35,16 @@ export default {
     }
   },
   methods: {
-    onFormSubmit(petData, petType) {
-      this.$store.dispatch("editItem", { petData, petType });
-
-      this.$toast.success({ message: "Updated successfully" });
+    onFormSubmit(petData, petType, onSuccessCb) {
+      this.$store
+        .dispatch("editItem", { petData, petType })
+        .then(() => {
+          this.$toast.success({ message: "Updated successfully" });
+          onSuccessCb();
+        })
+        .catch(() => {
+          this.$toast.error({ message: "Failed to update entry" });
+        });
     }
   }
 };

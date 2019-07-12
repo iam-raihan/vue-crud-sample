@@ -31,10 +31,16 @@ export default {
     togglePetForm() {
       this.showPetForm = !this.showPetForm;
     },
-    onFormSubmit(petData, petType) {
-      this.$store.dispatch("addItem", { petData, petType });
-
-      this.$toast.success({ message: "Added successfully" });
+    onFormSubmit(petData, petType, onSuccessCb) {
+      this.$store
+        .dispatch("addItem", { petData, petType })
+        .then(() => {
+          this.$toast.success({ message: "Added successfully" });
+          onSuccessCb();
+        })
+        .catch(() => {
+          this.$toast.error({ message: "Failed to add new entry" });
+        });
     }
   }
 };

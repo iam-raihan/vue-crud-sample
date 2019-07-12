@@ -118,12 +118,17 @@ export default {
         )
         .then(value => {
           if (value === true) {
-            this.$store.dispatch("deleteItem", {
-              petData: this.selectedItem,
-              petType: this.type.toLowerCase()
-            });
-
-            this.$toast.success({ message: "Deleted successfully" });
+            this.$store
+              .dispatch("deleteItem", {
+                petData: this.selectedItem,
+                petType: this.type.toLowerCase()
+              })
+              .then(() => {
+                this.$toast.success({ message: "Deleted successfully" });
+              })
+              .catch(() => {
+                this.$toast.error({ message: "Failed to delete entry" });
+              });
           }
         })
         .catch(err => console.log(err));

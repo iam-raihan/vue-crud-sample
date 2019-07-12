@@ -31,18 +31,20 @@ const mutations = {};
  * Actions
  */
 const actions = {
-  init({ dispatch }) {
-    dispatch("CatsModule/init");
-    dispatch("DogsModule/init");
+  async init({ dispatch }) {
+    await Promise.all([
+      dispatch("CatsModule/init"),
+      dispatch("DogsModule/init")
+    ]);
   },
-  addItem({ dispatch }, { petData, petType }) {
-    dispatch(mapModuleName(petType) + "/addItem", petData);
+  async addItem({ dispatch }, { petData, petType }) {
+    await dispatch(mapModuleName(petType) + "/addItem", petData);
   },
-  editItem({ dispatch }, { petData, petType }) {
-    dispatch(mapModuleName(petType) + "/editItem", petData);
+  async editItem({ dispatch }, { petData, petType }) {
+    await dispatch(mapModuleName(petType) + "/editItem", petData);
   },
-  deleteItem({ dispatch }, { petData, petType }) {
-    dispatch(mapModuleName(petType) + "/deleteItem", petData);
+  async deleteItem({ dispatch }, { petData, petType }) {
+    await dispatch(mapModuleName(petType) + "/deleteItem", petData);
   }
 };
 

@@ -1,7 +1,7 @@
 import * as shared from "./shared";
-import { DogsController } from "../controllers";
+import { ApiController } from "../controllers/ApiController";
 
-const controller = new DogsController();
+const controller = new ApiController("dogs");
 
 /**
  * State

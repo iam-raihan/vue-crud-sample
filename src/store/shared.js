@@ -30,24 +30,24 @@ export const mutations = {
  */
 export const actions = controller => {
   return {
-    init({ dispatch }) {
-      dispatch("fetchItems");
+    async init({ dispatch }) {
+      await dispatch("fetchItems");
     },
-    fetchItems({ commit }) {
-      const items = controller.getAll();
+    async fetchItems({ commit }) {
+      const items = await controller.getAll();
       commit("SET_ITEMS", items);
     },
-    addItem({ commit }, data) {
-      const item = controller.addNew(data);
+    async addItem({ commit }, data) {
+      const item = await controller.addNew(data);
       commit("ADD_ITEM", item);
     },
-    editItem({ commit }, data) {
-      const item = controller.update(data);
+    async editItem({ commit }, data) {
+      const item = await controller.update(data);
       commit("EDIT_ITEM", item);
     },
-    deleteItem({ commit }, data) {
-      const item = controller.delete(data);
-      commit("DELETE_ITEM", item);
+    async deleteItem({ commit }, data) {
+      await controller.delete(data);
+      commit("DELETE_ITEM", data);
     }
   };
 };
