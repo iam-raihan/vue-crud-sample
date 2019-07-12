@@ -8,26 +8,27 @@ export class ApiController {
       throw "invalid petType in ApiController";
     }
 
-    this.apiUrl = `${process.env.VUE_APP_API_URL}/${petType}`;
+    let url = `${process.env.VUE_APP_API_URL}/${petType}`;
+    this.fetch = fetchData(url);
   }
 
   async getAll() {
-    let data = await fetchData(this.apiUrl);
+    let data = await this.fetch.GET();
     return data;
   }
 
   async addNew(item) {
-    let data = await fetchData(this.apiUrl, item, "POST");
+    let data = await this.fetch.POST(item);
     // if using fake api calls, set id manually
     if (isFakeApi) data.id = (+new Date()).toString();
     return data;
   }
 
   async update(item) {
-    let data = await fetchData(this.apiUrl + "/" + item.id, item, "PUT");
+    let data = await this.fetch.PUT(item.id, item);
     return data;
   }
   async delete(item) {
-    await fetchData(this.apiUrl + "/" + item.id, item, "DELETE");
+    await this.fetch.DELETE(item.id);
   }
 }

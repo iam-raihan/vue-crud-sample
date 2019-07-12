@@ -8,17 +8,10 @@ class HttpError extends Error {
 
 const isFakeApi = process.env.VUE_APP_FAKE_API_SERVER === "true";
 
-export const fetchData = async (url, data, method = "GET") => {
-  let options = data
-    ? {
-        method,
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      }
-    : {};
+const send = async (url, options) => {
+  options.headers = {
+    "Content-Type": "application/json"
+  };
 
   try {
     let res = await fetch(url, options);
@@ -34,13 +27,55 @@ export const fetchData = async (url, data, method = "GET") => {
      * changes by API calls aren't persisted!
      * POST, PUT, DELETE requests doesn't update database.
      * so consider status 404 (Not Found) as valid
-     * and return data directly
+     * and return data from options.body
      */
     if (isFakeApi && err instanceof HttpError && err.response.status === 404) {
-      return data;
+      return JSON.parse(options.body || "{}");
     }
 
     console.log("error:", err);
     throw err;
   }
+};
+
+export const fetchData = baseUrl => {
+  if (typeof baseUrl !== "string") {
+    throw "invalid url in fetchData";
+  }
+
+  const types = {
+    GET() {
+      let options = {};
+
+      return send(baseUrl, options);
+    },
+
+    POST(data) {
+      let options = {
+        method: "POST",
+        body: JSON.stringify(data)
+      };
+
+      return send(baseUrl, options);
+    },
+
+    PUT(id, data) {
+      let options = {
+        method: "PUT",
+        body: JSON.stringify(data)
+      };
+
+      return send(baseUrl + "/" + id, options);
+    },
+
+    DELETE(id) {
+      let options = {
+        method: "DELETE"
+      };
+
+      return send(baseUrl + "/" + id, options);
+    }
+  };
+
+  return types;
 };
