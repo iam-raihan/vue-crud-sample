@@ -199,10 +199,7 @@ export default {
     handleSubmit() {
       // TODO - validate form
 
-      this.$emit("form-submit", {
-        data: this.formData,
-        type: this.formPetType
-      });
+      this.$emit("form-submit", this.formData, this.formPetType);
 
       if (!this.isNewEntry) this.formDataOld = Object.assign({}, this.formData);
 

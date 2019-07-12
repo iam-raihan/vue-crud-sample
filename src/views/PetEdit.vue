@@ -35,8 +35,8 @@ export default {
     }
   },
   methods: {
-    onFormSubmit({ data, type }) {
-      this.$store.dispatch("editItem", { data, type });
+    onFormSubmit(petData, petType) {
+      this.$store.dispatch("editItem", { petData, petType });
 
       this.$toast.success({ message: "Updated successfully" });
     }

@@ -35,14 +35,14 @@ const actions = {
     dispatch("CatsModule/init");
     dispatch("DogsModule/init");
   },
-  addItem({ dispatch }, { data, type }) {
-    dispatch(mapModuleName(type) + "/addItem", data);
+  addItem({ dispatch }, { petData, petType }) {
+    dispatch(mapModuleName(petType) + "/addItem", petData);
   },
-  editItem({ dispatch }, { data, type }) {
-    dispatch(mapModuleName(type) + "/editItem", data);
+  editItem({ dispatch }, { petData, petType }) {
+    dispatch(mapModuleName(petType) + "/editItem", petData);
   },
-  deleteItem({ dispatch }, { data, type }) {
-    dispatch(mapModuleName(type) + "/deleteItem", data);
+  deleteItem({ dispatch }, { petData, petType }) {
+    dispatch(mapModuleName(petType) + "/deleteItem", petData);
   }
 };
 

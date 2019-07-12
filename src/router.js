@@ -2,8 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Home from "./views/Home.vue";
-import Cats from "./views/Cats.vue";
-import Dogs from "./views/Dogs.vue";
+import PetView from "./views/PetView.vue";
 import PetEdit from "./views/PetEdit.vue";
 
 Vue.use(Router);
@@ -20,12 +19,13 @@ const router = new Router({
     {
       path: "/cats",
       name: "cats",
-      component: Cats
+      component: PetView,
+      props: { petType: "Cats" }
     },
     {
       path: "/dogs",
-      name: "dogs",
-      component: Dogs
+      component: PetView,
+      props: { petType: "Dogs" }
     },
     {
       path: "/:type/:id/edit",

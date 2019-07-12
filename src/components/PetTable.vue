@@ -119,8 +119,8 @@ export default {
         .then(value => {
           if (value === true) {
             this.$store.dispatch("deleteItem", {
-              data: this.selectedItem,
-              type: this.type.toLowerCase()
+              petData: this.selectedItem,
+              petType: this.type.toLowerCase()
             });
 
             this.$toast.success({ message: "Deleted successfully" });
