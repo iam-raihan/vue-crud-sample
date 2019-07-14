@@ -134,12 +134,12 @@
 
           <b-form-row>
             <b-col class="text-right">
-              <b-button type="submit" variant="primary">
+              <b-button type="submit" variant="primary" :disabled="loading">
                 {{ !isNewEntry ? "Update" : "Submit" }}
               </b-button>
             </b-col>
             <b-col class="text-left">
-              <b-button type="reset" variant="danger">
+              <b-button type="reset" variant="danger" :disabled="loading">
                 Reset
               </b-button>
             </b-col>
@@ -177,6 +177,10 @@ export default {
       validator(value) {
         return ["cats", "dogs"].indexOf(value) !== -1;
       }
+    },
+    loading: {
+      type: Boolean,
+      required: true
     }
   },
   data() {

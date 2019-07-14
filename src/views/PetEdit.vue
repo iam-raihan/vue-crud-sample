@@ -4,6 +4,7 @@
       <pet-form
         :pet-data="pet"
         :pet-type="type"
+        :loading="loading"
         @form-submit="onFormSubmit"
       ></pet-form>
     </div>
@@ -18,13 +19,18 @@ import NotFound from "@/components/NotFound.vue";
 
 export default {
   name: "editpet",
+  components: {
+    PetForm,
+    NotFound
+  },
   props: {
     type: String,
     id: String
   },
-  components: {
-    PetForm,
-    NotFound
+  data() {
+    return {
+      loading: false
+    };
   },
   computed: {
     pet() {
@@ -36,14 +42,17 @@ export default {
   },
   methods: {
     onFormSubmit(petData, petType, onSuccessCb) {
+      this.loading = true;
       this.$store
         .dispatch("editItem", { petData, petType })
         .then(() => {
           this.$toast.success({ message: "Updated successfully" });
           onSuccessCb();
+          this.loading = false;
         })
         .catch(() => {
           this.$toast.error({ message: "Failed to update entry" });
+          this.loading = false;
         });
     }
   }

@@ -10,7 +10,12 @@
       </b-col>
     </b-row>
 
-    <pet-form class="mt-4" v-if="showPetForm" @form-submit="onFormSubmit" />
+    <pet-form
+      class="mt-4"
+      v-if="showPetForm"
+      @form-submit="onFormSubmit"
+      :loading="loading"
+    ></pet-form>
   </div>
 </template>
 
@@ -24,7 +29,8 @@ export default {
   },
   data() {
     return {
-      showPetForm: false
+      showPetForm: false,
+      loading: false
     };
   },
   methods: {
@@ -32,14 +38,17 @@ export default {
       this.showPetForm = !this.showPetForm;
     },
     onFormSubmit(petData, petType, onSuccessCb) {
+      this.loading = true;
       this.$store
         .dispatch("addItem", { petData, petType })
         .then(() => {
           this.$toast.success({ message: "Added successfully" });
           onSuccessCb();
+          this.loading = false;
         })
         .catch(() => {
           this.$toast.error({ message: "Failed to add new entry" });
+          this.loading = false;
         });
     }
   }
